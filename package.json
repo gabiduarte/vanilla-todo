@@ -1,0 +1,23 @@
+{
+  "name": "vanilla-todo",
+  "version": "1.0.0",
+  "description": "another pure js todo",
+  "main": "js/script.js",
+  "scripts": {
+    "test": "grunt jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gabiduarte/vanilla-todo.git"
+  },
+  "author": "Gabrielle Duarte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabiduarte/vanilla-todo/issues"
+  },
+  "homepage": "https://github.com/gabiduarte/vanilla-todo#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-jasmine": "^1.1.0"
+  }
+}

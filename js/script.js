@@ -1,6 +1,3 @@
-////// TODO:
-// refactor de create.tags
-
 var Todo = {
     init: function() {
         var todos = this.getTodos();
