@@ -21,8 +21,8 @@ var Todo = {
 		}
 	},
 
-	newTodo: function(newTodo) {
-		var todo = this.create.todo(newTodo);
+	newTodo: function(description) {
+		var todo = this.create.todo(description);
 		var todos = this.getFromLocalStorage('todos');
 
 		todos.push(todo);
@@ -57,10 +57,17 @@ var Todo = {
 		return HTML;
 	},
 
+	populate: {
+		todos: function() {
+			document.getElementById('td-input').innerHTML = Todo.generateHTML();
+		}
+	},
+
 	listen: function() {
 		document.getElementById('submit').addEventListener('click', function() {
 			var description = document.getElementById('input').value;
-			Todo.create.todo(description);
+			Todo.newTodo(description);
+			Todo.populate.todos();
 		});
 
 		document.getElementById('clear-all').addEventListener('click', function(){
