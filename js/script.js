@@ -13,5 +13,22 @@ var Todo = {
     },
     setToLocalStorage: function(string, items) {
         localStorage.setItem(string, JSON.stringify(items));
+    },
+
+    create: {
+        todo: function(input) {
+            return {
+                description: input,
+                category: 'Personal'
+            }
+        }
+    },
+
+    newTodo: function(newTodo) {
+        var todo = this.create.todo(newTodo);
+        var todos = JSON.parse(this.getFromLocalStorage('todos'));
+
+        todos.push(todo);
+        this.setToLocalStorage('todos', todos);
     }
 }
