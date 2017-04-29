@@ -1,11 +1,6 @@
 describe('Vanilla Todo', function() {
 
 	var fakeStorage,
-		fakeTodo = {
-			description: 'This todo',
-			category: 'Personal'
-		},
-
 		fakeTodos = [{
 			description: 'A',
 			category: 'Personal'
@@ -48,15 +43,15 @@ describe('Vanilla Todo', function() {
 		});
 
 		it('creates a todo object with description', function(){		
-			expect(Todo.create.todo('This todo')).toEqual(fakeTodo);
+			expect(Todo.create.todo('A')).toEqual(fakeTodos[0]);
 		});
 
 		it('adds new todo to todos in localStorage', function() {
 			expect(fakeStorage.todos).toEqual('[]');			
-			Todo.newTodo(fakeTodo.description);
+			Todo.newTodo(fakeTodos[0].description);
 			var firstTodo = JSON.parse(fakeStorage.todos)[0];
 
-			expect(firstTodo).toEqual(fakeTodo);
+			expect(firstTodo).toEqual(fakeTodos[0]);
 		});
 	});
 
