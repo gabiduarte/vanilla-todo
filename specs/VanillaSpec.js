@@ -32,7 +32,7 @@ describe('Vanilla Todo', function() {
 		it('returns todo array when there is any todo in localStorage', function() {
 			localStorage.setItem('todos', '["A","B"]');
 			var init = Todo.init();
-			expect(init).toEqual('["A","B"]');
+			expect(init).toEqual(['A', 'B']);
 		});
 	});
 
