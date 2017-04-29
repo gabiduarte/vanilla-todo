@@ -7,7 +7,9 @@ describe('Vanilla Todo', function() {
 		}, {
 			description: 'B',
 			category: 'Personal'
-		}];
+		}],
+		arrayWithTwoTodos = '[' + JSON.stringify(fakeTodos[0]) + ',' + JSON.stringify(fakeTodos[1]) + ']',
+		arrayWithOneTodo = '[' + JSON.stringify(fakeTodos[1]) + ']';
 
 	beforeEach(function () {
 		fakeStorage = {};
@@ -56,11 +58,8 @@ describe('Vanilla Todo', function() {
 	});
 
 	describe('Delete Todos', function() {
-		var arrayWithTwoTodos = '[' + JSON.stringify(fakeTodos[0]) + ',' + JSON.stringify(fakeTodos[1]) + ']',
-			arrayWithOneTodo = '[' + JSON.stringify(fakeTodos[1]) + ']';
-
 		beforeEach(function () {
-			fakeStorage = { todos: arrayWithTwoTodos};
+			fakeStorage = { todos: arrayWithTwoTodos };
 		});
 
 		it('deletes all todos', function() {
@@ -76,4 +75,13 @@ describe('Vanilla Todo', function() {
 		});
 	});
 
+	describe('Populate Todo', function() {
+		it('creates html for all todos in localStorage', function() {
+			fakeStorage = { todos: arrayWithTwoTodos };
+			var fakeTodoHTML = "<tr><td><button type='button' class='fa-btn'><i class='fa fa-trash-o fa-fw'></i></button>A</td></tr>" +
+								"<tr><td><button type='button' class='fa-btn'><i class='fa fa-trash-o fa-fw'></i></button>B</td></tr>";
+
+			expect(Todo.generateHTML()).toEqual(fakeTodoHTML);
+		});
+	});
 });

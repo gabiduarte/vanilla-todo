@@ -46,6 +46,17 @@ var Todo = {
 		}
 	},
 
+	generateHTML: function() {
+		var todos = this.getFromLocalStorage('todos'),
+			HTML = '';
+
+		todos.forEach(function(item) {
+			HTML += "<tr><td><button type='button' class='fa-btn'><i class='fa fa-trash-o fa-fw'></i></button>" + item.description + "</td></tr>";
+		});
+
+		return HTML;
+	},
+
 	listen: function() {
 		document.getElementById('submit').addEventListener('click', function() {
 			var description = document.getElementById('input').value;
