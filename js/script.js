@@ -1,48 +1,59 @@
 var Todo = {
-    init: function() {
-        return this.getFromLocalStorage('todos') || this.setToLocalStorage('todos', []);
-    },
+	init: function() {
+		return this.getFromLocalStorage('todos') || this.setToLocalStorage('todos', []);
+	},
 
-    getFromLocalStorage: function(item) {
-        var localStorageItem = localStorage.getItem(item);
-        return localStorageItem ? JSON.parse(localStorageItem) : null;
-    },
-    
-    setToLocalStorage: function(string, items) {
-        localStorage.setItem(string, JSON.stringify(items));
-    },
+	getFromLocalStorage: function(item) {
+		var localStorageItem = localStorage.getItem(item);
+		return localStorageItem ? JSON.parse(localStorageItem) : null;
+	},
 
-    create: {
-        todo: function(input) {
-            return {
-                description: input,
-                category: 'Personal'
-            }
-        }
-    },
+	setToLocalStorage: function(string, items) {
+		localStorage.setItem(string, JSON.stringify(items));
+	},
 
-    newTodo: function(newTodo) {
-        var todo = this.create.todo(newTodo);
-        var todos = this.getFromLocalStorage('todos');
+	create: {
+		todo: function(input) {
+			return {
+				description: input,
+				category: 'Personal'
+			}
+		}
+	},
 
-        todos.push(todo);
-        this.setToLocalStorage('todos', todos);
-    },
+	newTodo: function(newTodo) {
+		var todo = this.create.todo(newTodo);
+		var todos = this.getFromLocalStorage('todos');
 
-    delete: {
-        all: function() {
-            Todo.setToLocalStorage('todos', []);
-        },
+		todos.push(todo);
+		this.setToLocalStorage('todos', todos);
+	},
 
-        todo: function(todo) {
-            var todos = Todo.getFromLocalStorage('todos');
-            todos.forEach(function(item, index) {
-                if (item.description == todo.description) {
-                    return todos.splice(index, 1);
-                }
-            });
+	delete: {
+		all: function() {
+			Todo.setToLocalStorage('todos', []);
+		},
 
-            Todo.setToLocalStorage('todos', todos);
-        }
-    }
+		todo: function(todo) {
+			var todos = Todo.getFromLocalStorage('todos');
+			todos.forEach(function(item, index) {
+				if (item.description == todo.description) {
+					return todos.splice(index, 1);
+				}
+			});
+
+			Todo.setToLocalStorage('todos', todos);
+		}
+	},
+
+	listen: function() {
+		document.getElementById('submit').addEventListener('click', function() {
+			var description = document.getElementById('input').value;
+			Todo.create.todo(description);
+		});
+
+		document.getElementById('clear-all').addEventListener('click', function(){
+			Todo.delete.all();
+		});
+	}
 }
