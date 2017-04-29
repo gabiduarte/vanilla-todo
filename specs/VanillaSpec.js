@@ -1,6 +1,18 @@
 describe('Vanilla Todo', function() {
 
-	var fakeStorage;
+	var fakeStorage,
+		fakeTodo = {
+			description: 'This todo',
+			category: 'Personal'
+		},
+
+		fakeTodos = [{
+			description: 'A',
+			category: 'Personal'
+		}, {
+			description: 'B',
+			category: 'Personal'
+		}];
 
 	beforeEach(function () {
 		fakeStorage = {};
@@ -30,11 +42,7 @@ describe('Vanilla Todo', function() {
 	});
 
 	describe('Create Todo', function() {
-		var fakeTodo = {
-			description: 'This todo',
-			category: 'Personal'
-		};
-
+		
 		beforeEach(function() {
 			fakeStorage = { todos: '[]'};
 		});
@@ -49,6 +57,27 @@ describe('Vanilla Todo', function() {
 			var firstTodo = JSON.parse(fakeStorage.todos)[0];
 
 			expect(firstTodo).toEqual(fakeTodo);
+		});
+	});
+
+	describe('Delete Todos', function() {
+		var arrayWithTwoTodos = '[' + JSON.stringify(fakeTodos[0]) + ',' + JSON.stringify(fakeTodos[1]) + ']',
+			arrayWithOneTodo = '[' + JSON.stringify(fakeTodos[1]) + ']';
+
+		beforeEach(function () {
+			fakeStorage = { todos: arrayWithTwoTodos};
+		});
+
+		it('deletes all todos', function() {
+			Todo.delete.all();
+			expect(fakeStorage.todos).toEqual('[]');
+		});
+
+		it('deletes a single todo', function() {
+			expect(fakeStorage.todos).toEqual(arrayWithTwoTodos);
+
+			Todo.delete.todo(fakeTodos[0]);
+			expect(fakeStorage.todos).toEqual(arrayWithOneTodo);
 		});
 	});
 

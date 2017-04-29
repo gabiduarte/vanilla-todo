@@ -30,5 +30,22 @@ var Todo = {
 
         todos.push(todo);
         this.setToLocalStorage('todos', todos);
+    },
+
+    delete: {
+        all: function() {
+            Todo.setToLocalStorage('todos', []);
+        },
+
+        todo: function(todo) {
+            var todos = JSON.parse(Todo.getFromLocalStorage('todos'));
+            todos.forEach(function(item, index) {
+                if (item.description == todo.description) {
+                    return todos.splice(index, 1);
+                }
+            });
+
+            Todo.setToLocalStorage('todos', todos);
+        }
     }
 }
