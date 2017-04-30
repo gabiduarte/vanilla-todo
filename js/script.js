@@ -43,6 +43,11 @@ var Todo = {
 			});
 
 			Todo.setToLocalStorage('todos', todos);
+		},
+
+		html: function(element) {
+			var todoLine = element.parentElement.parentElement;
+			todoLine.parentElement.removeChild(todoLine);
 		}
 	},
 
@@ -51,7 +56,7 @@ var Todo = {
 			HTML = '';
 
 		todos.forEach(function(item) {
-			HTML += "<tr><td><button type='button' class='fa-btn'><i class='fa fa-trash-o fa-fw'></i></button>" + item.description + "</td></tr>";
+			HTML += "<tr><td><button type='button' class='fa-btn delete-todo'><i class='fa fa-trash-o fa-fw'></i></button>" + item.description + "</td></tr>";
 		});
 
 		return HTML;
@@ -60,18 +65,35 @@ var Todo = {
 	populate: {
 		todos: function() {
 			document.getElementById('td-input').innerHTML = Todo.generateHTML();
+			Todo.listen.delete();
 		}
 	},
 
-	listen: function() {
-		document.getElementById('submit').addEventListener('click', function() {
-			var description = document.getElementById('input').value;
-			Todo.newTodo(description);
-			Todo.populate.todos();
-		});
-
-		document.getElementById('clear-all').addEventListener('click', function(){
-			Todo.delete.all();
-		});
+	listen: {
+		delete: function() {
+			Array.from(document.getElementsByClassName('delete-todo')).forEach(function(element) {
+				element.removeEventListener('click', function() {});
+				element.addEventListener('click', function() {
+					Todo.delete.html(this);
+				});
+			});
+		},
+		submit: function() {
+			document.getElementById('submit').addEventListener('click', function() {
+				var description = document.getElementById('input').value;
+				Todo.newTodo(description);
+				Todo.populate.todos();
+			});
+		},
+		clearAll: function() {
+			document.getElementById('clear-all').addEventListener('click', function(){
+				Todo.delete.all();
+				Todo.populate.todos();
+			});
+		},
+		all: function() {
+			this.submit();
+			this.clearAll();
+		}	
 	}
 }

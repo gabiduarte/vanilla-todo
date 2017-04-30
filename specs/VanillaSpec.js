@@ -78,8 +78,8 @@ describe('Vanilla Todo', function() {
 	describe('Populate Todo', function() {
 		it('creates html for all todos in localStorage', function() {
 			fakeStorage = { todos: arrayWithTwoTodos };
-			var fakeTodoHTML = "<tr><td><button type='button' class='fa-btn'><i class='fa fa-trash-o fa-fw'></i></button>A</td></tr>" +
-								"<tr><td><button type='button' class='fa-btn'><i class='fa fa-trash-o fa-fw'></i></button>B</td></tr>";
+			var fakeTodoHTML = "<tr><td><button type='button' class='fa-btn delete-todo'><i class='fa fa-trash-o fa-fw'></i></button>A</td></tr>" +
+								"<tr><td><button type='button' class='fa-btn delete-todo'><i class='fa fa-trash-o fa-fw'></i></button>B</td></tr>";
 
 			expect(Todo.generateHTML()).toEqual(fakeTodoHTML);
 		});
