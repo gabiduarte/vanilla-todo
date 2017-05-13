@@ -58,9 +58,11 @@ var Todo = {
 		var todos = this.getFromLocalStorage('todos'),
 			HTML = '';
 
-		todos.forEach(function(item) {
-			HTML += "<tr><td><button type='button' class='fa-btn delete-todo'><i class='fa fa-trash-o fa-fw'></i></button><span>" + item.description + "</span></td></tr>";
-		});
+		if (todos) {
+			todos.forEach(function(item) {
+				HTML += "<tr><td><button type='button' class='fa-btn delete-todo'><i class='fa fa-trash-o fa-fw'></i></button><span>" + item.description + "</span></td></tr>";
+			});
+		}
 
 		return HTML;
 	},
