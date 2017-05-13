@@ -3,10 +3,12 @@ describe('Vanilla Todo', function() {
 	var fakeStorage,
 		fakeTodos = [{
 			description: 'A',
-			category: 'Personal'
+			category: 'Personal',
+			isComplete: false
 		}, {
 			description: 'B',
-			category: 'Work'
+			category: 'Work',
+			isComplete: false
 		}],
 		arrayWithTwoTodos = '[' + JSON.stringify(fakeTodos[0]) + ',' + JSON.stringify(fakeTodos[1]) + ']',
 		arrayWithOneTodo = '[' + JSON.stringify(fakeTodos[1]) + ']',
@@ -99,6 +101,12 @@ describe('Vanilla Todo', function() {
 		it('shows a todo category on the html tag', function() {
 			fakeStorage = { todos: arrayWithOneTodo };
 			expect(Todo.generateHTML()).toEqual(fakeHTMLForB);
+		});
+	});
+
+	describe('Complete Todo', function(){
+		it('creates todo with isComplete property set to false', function() {
+			expect(Todo.create.todo('B', 'Work').isComplete).toBeFalsy();
 		});
 	});
 });

@@ -16,7 +16,8 @@ var Todo = {
 		todo: function(input, chosenCategory) {
 			return {
 				description: input,
-				category: chosenCategory || 'Personal'
+				category: chosenCategory || 'Personal',
+				isComplete: false
 			}
 		}
 	},
