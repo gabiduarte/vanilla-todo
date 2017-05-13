@@ -6,7 +6,7 @@ describe('Vanilla Todo', function() {
 			category: 'Personal'
 		}, {
 			description: 'B',
-			category: 'Personal'
+			category: 'Work'
 		}],
 		arrayWithTwoTodos = '[' + JSON.stringify(fakeTodos[0]) + ',' + JSON.stringify(fakeTodos[1]) + ']',
 		arrayWithOneTodo = '[' + JSON.stringify(fakeTodos[1]) + ']';
@@ -39,17 +39,17 @@ describe('Vanilla Todo', function() {
 	});
 
 	describe('Create Todo', function() {
-		
+
 		beforeEach(function() {
 			fakeStorage = { todos: '[]'};
 		});
 
-		it('creates a todo object with description', function(){		
+		it('creates a todo object with description', function(){
 			expect(Todo.create.todo('A')).toEqual(fakeTodos[0]);
 		});
 
 		it('adds new todo to todos in localStorage', function() {
-			expect(fakeStorage.todos).toEqual('[]');			
+			expect(fakeStorage.todos).toEqual('[]');
 			Todo.newTodo(fakeTodos[0].description);
 			var firstTodo = JSON.parse(fakeStorage.todos)[0];
 
@@ -82,6 +82,16 @@ describe('Vanilla Todo', function() {
 								"<tr><td><button type='button' class='fa-btn delete-todo'><i class='fa fa-trash-o fa-fw'></i></button><span>B</span></td></tr>";
 
 			expect(Todo.generateHTML()).toEqual(fakeTodoHTML);
+		});
+	});
+
+	describe('Categorize Todo', function() {
+		it('sets default category to personal if none is given', function(){
+			expect(Todo.create.todo('A')).toEqual(fakeTodos[0]);
+		});
+
+		it('adds a category to a todo upon creation', function(){
+			expect(Todo.create.todo('B', 'Work')).toEqual(fakeTodos[1]);
 		});
 	});
 });

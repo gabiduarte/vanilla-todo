@@ -13,16 +13,16 @@ var Todo = {
 	},
 
 	create: {
-		todo: function(input) {
+		todo: function(input, chosenCategory) {
 			return {
 				description: input,
-				category: 'Personal'
+				category: chosenCategory || 'Personal'
 			}
 		}
 	},
 
-	newTodo: function(description) {
-		var todo = this.create.todo(description);
+	newTodo: function(description, category) {
+		var todo = this.create.todo(description, category);
 		var todos = this.getFromLocalStorage('todos');
 
 		todos.push(todo);
@@ -90,8 +90,9 @@ var Todo = {
 		},
 		submit: function() {
 			document.getElementById('submit').addEventListener('click', function() {
-				var description = document.getElementById('input').value;
-				Todo.newTodo(description);
+				var description = document.getElementById('input').value,
+				category = document.getElementById('category').value;
+				Todo.newTodo(description, category);
 				Todo.populate.todos();
 			});
 		},
