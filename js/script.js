@@ -35,9 +35,12 @@ var Todo = {
 		},
 
 		todo: function(todo) {
-			var todos = Todo.getFromLocalStorage('todos');
+			var todos = Todo.getFromLocalStorage('todos'),
+					foundTodo = false;
+
 			todos.forEach(function(item, index) {
-				if (item.description == todo.description) {
+				if (item.description == todo.description && !foundTodo) {
+					foundTodo = true;
 					return todos.splice(index, 1);
 				}
 			});
@@ -99,6 +102,6 @@ var Todo = {
 		all: function() {
 			this.submit();
 			this.clearAll();
-		}	
+		}
 	}
 }
