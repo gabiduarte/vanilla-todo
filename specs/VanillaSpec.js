@@ -9,7 +9,14 @@ describe('Vanilla Todo', function() {
 			category: 'Work'
 		}],
 		arrayWithTwoTodos = '[' + JSON.stringify(fakeTodos[0]) + ',' + JSON.stringify(fakeTodos[1]) + ']',
-		arrayWithOneTodo = '[' + JSON.stringify(fakeTodos[1]) + ']';
+		arrayWithOneTodo = '[' + JSON.stringify(fakeTodos[1]) + ']',
+
+		fakeHTMLForA = "<tr><td><button type='button' class='fa-btn delete-todo'>" +
+		"<i class='fa fa-trash-o fa-fw'></i></button>" +
+		"<span>[Personal] </span><span>A</span></td></tr>";
+		fakeHTMLForB = "<tr><td><button type='button' class='fa-btn delete-todo'>" +
+		"<i class='fa fa-trash-o fa-fw'></i></button>" +
+		"<span>[Work] </span><span>B</span></td></tr>";
 
 	beforeEach(function () {
 		fakeStorage = {};
@@ -21,7 +28,7 @@ describe('Vanilla Todo', function() {
 			return fakeStorage[key] = value + '';
 		});
 	});
-	
+
 	describe('Load Todos', function() {
 		it('creates an empty array in localStorage when it has no todos', function() {
 				expect(fakeStorage.todos).toBeUndefined();
@@ -30,7 +37,6 @@ describe('Vanilla Todo', function() {
 				expect(fakeStorage.todos).toEqual('[]');
 		});
 
-		//TODO: Change implementation when tag creation is refactored
 		it('returns todo array when there is any todo in localStorage', function() {
 			localStorage.setItem('todos', '["A","B"]');
 			var init = Todo.init();
@@ -39,7 +45,6 @@ describe('Vanilla Todo', function() {
 	});
 
 	describe('Create Todo', function() {
-
 		beforeEach(function() {
 			fakeStorage = { todos: '[]'};
 		});
@@ -78,10 +83,7 @@ describe('Vanilla Todo', function() {
 	describe('Populate Todo', function() {
 		it('creates html for all todos in localStorage', function() {
 			fakeStorage = { todos: arrayWithTwoTodos };
-			var fakeTodoHTML = "<tr><td><button type='button' class='fa-btn delete-todo'><i class='fa fa-trash-o fa-fw'></i></button><span>A</span></td></tr>" +
-								"<tr><td><button type='button' class='fa-btn delete-todo'><i class='fa fa-trash-o fa-fw'></i></button><span>B</span></td></tr>";
-
-			expect(Todo.generateHTML()).toEqual(fakeTodoHTML);
+			expect(Todo.generateHTML()).toEqual(fakeHTMLForA + fakeHTMLForB);
 		});
 	});
 
@@ -92,6 +94,11 @@ describe('Vanilla Todo', function() {
 
 		it('adds a category to a todo upon creation', function(){
 			expect(Todo.create.todo('B', 'Work')).toEqual(fakeTodos[1]);
+		});
+
+		it('shows a todo category on the html tag', function() {
+			fakeStorage = { todos: arrayWithOneTodo };
+			expect(Todo.generateHTML()).toEqual(fakeHTMLForB);
 		});
 	});
 });

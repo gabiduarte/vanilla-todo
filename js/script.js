@@ -60,10 +60,11 @@ var Todo = {
 
 		if (todos) {
 			todos.forEach(function(item) {
-				HTML += "<tr><td><button type='button' class='fa-btn delete-todo'><i class='fa fa-trash-o fa-fw'></i></button><span>" + item.description + "</span></td></tr>";
+				HTML += "<tr><td><button type='button' class='fa-btn delete-todo'>" +
+				"<i class='fa fa-trash-o fa-fw'></i></button><span>[" + item.category + "] " +
+				"</span><span>" + item.description + "</span></td></tr>"
 			});
 		}
-
 		return HTML;
 	},
 
@@ -80,7 +81,7 @@ var Todo = {
 				element.removeEventListener('click', function() {});
 				element.addEventListener('click', function() {
 
-					var todoDescription = this.parentElement.getElementsByTagName('span')[0].innerHTML;
+					var todoDescription = this.parentElement.getElementsByTagName('span')[1].innerHTML;
 					var todo = Todo.create.todo(todoDescription);
 
 					Todo.delete.todo(todo);
