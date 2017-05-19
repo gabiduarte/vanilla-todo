@@ -13,11 +13,13 @@ describe('Vanilla Todo', function() {
 		arrayWithTwoTodos = '[' + JSON.stringify(fakeTodos[0]) + ',' + JSON.stringify(fakeTodos[1]) + ']',
 		arrayWithOneTodo = '[' + JSON.stringify(fakeTodos[1]) + ']',
 
-		fakeHTMLForA = "<tr><td><button type='button' class='fa-btn delete-todo'>" +
+		fakeHTMLForA = "<tr><td class=''><button type='button' class='fa-btn delete-todo'>" +
 		"<i class='fa fa-trash-o fa-fw'></i></button>" +
+		"<button type='button' class='fa-btn complete-todo'><i class='fa fa-check '></i></button>" +
 		"<span>[Personal] </span><span>A</span></td></tr>";
-		fakeHTMLForB = "<tr><td><button type='button' class='fa-btn delete-todo'>" +
+		fakeHTMLForB = "<tr><td class=''><button type='button' class='fa-btn delete-todo'>" +
 		"<i class='fa fa-trash-o fa-fw'></i></button>" +
+		"<button type='button' class='fa-btn complete-todo'><i class='fa fa-check '></i></button>" +
 		"<span>[Work] </span><span>B</span></td></tr>";
 
 	beforeEach(function () {
@@ -107,6 +109,13 @@ describe('Vanilla Todo', function() {
 	describe('Complete Todo', function(){
 		it('creates todo with isComplete property set to false', function() {
 			expect(Todo.create.todo('B', 'Work').isComplete).toBeFalsy();
+		});
+
+		it('toggles todo isComplete property', function() {
+			fakeStorage = { todos: arrayWithTwoTodos };
+
+			Todo.toggleComplete(JSON.parse(fakeStorage.todos)[0]);
+			expect(JSON.parse(fakeStorage.todos)[0].isComplete).toBeTruthy();
 		});
 	});
 });

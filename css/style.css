@@ -37,3 +37,13 @@ footer {
   height: 50px;
 	background-color: #eee;
 }
+
+.complete {
+	text-decoration: line-through;
+	color: #666;
+	opacity: 0.4;
+}
+
+.complete-icon {
+	color: red;
+}

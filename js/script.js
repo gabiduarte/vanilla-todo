@@ -13,11 +13,11 @@ var Todo = {
 	},
 
 	create: {
-		todo: function(input, chosenCategory) {
+		todo: function(input, chosenCategory, complete) {
 			return {
 				description: input,
 				category: chosenCategory || 'Personal',
-				isComplete: false
+				isComplete: complete || false
 			}
 		}
 	},
@@ -28,6 +28,21 @@ var Todo = {
 
 		todos.push(todo);
 		this.setToLocalStorage('todos', todos);
+	},
+
+	toggleComplete: function(todo) {
+		var todos = this.getFromLocalStorage('todos'),
+			foundTodo = false;
+
+		if (todos) {
+			todos.forEach(function(item, index) {
+				if (item.description == todo.description && !foundTodo) {
+					foundTodo = true;
+					item.isComplete = !item.isComplete;
+				}
+			});
+			Todo.setToLocalStorage('todos', todos);
+		}
 	},
 
 	delete: {
@@ -55,15 +70,33 @@ var Todo = {
 		}
 	},
 
+	// findTodo: function(todo) {
+	// 	var todos = Todo.getFromLocalStorage('todos'),
+	// 			foundTodo = false;
+	//
+	// 	todos.forEach(function(item, index) {
+	// 		if (item.description == todo.description && !foundTodo) {
+	// 			foundTodo = item;
+	// 		}
+	// 	});
+	// },
+
 	generateHTML: function() {
 		var todos = this.getFromLocalStorage('todos'),
 			HTML = '';
 
 		if (todos) {
 			todos.forEach(function(item) {
-				HTML += "<tr><td><button type='button' class='fa-btn delete-todo'>" +
-				"<i class='fa fa-trash-o fa-fw'></i></button><span>[" + item.category + "] " +
-				"</span><span>" + item.description + "</span></td></tr>"
+			 	var completeClass = item.isComplete ? 'complete' : '',
+						completeIcon = item.isComplete ? 'complete-icon' : '';
+
+				HTML += "<tr><td class='" + completeClass + "'>" +
+				"<button type='button' class='fa-btn delete-todo'>" +
+				"<i class='fa fa-trash-o fa-fw'></i></button>" +
+				"<button type='button' class='fa-btn complete-todo'>" +
+				"<i class='fa fa-check " + completeIcon + "'></i></button>" +
+				"<span>[" + item.category + "] </span>" +
+				"<span>" + item.description + "</span></td></tr>"
 			});
 		}
 		return HTML;
@@ -72,11 +105,26 @@ var Todo = {
 	populate: {
 		todos: function() {
 			document.getElementById('td-input').innerHTML = Todo.generateHTML();
+			Todo.listen.complete();
 			Todo.listen.delete();
 		}
 	},
 
 	listen: {
+		complete: function() {
+			Array.from(document.getElementsByClassName('complete-todo')).forEach(function(element) {
+				element.removeEventListener('click', function() {});
+				element.addEventListener('click', function() {
+
+					var todoDescription = this.parentElement.getElementsByTagName('span')[1].innerHTML;
+					var todo = Todo.create.todo(todoDescription);
+
+					Todo.toggleComplete(todo);
+					Todo.populate.todos();
+				});
+			});
+		},
+
 		delete: function() {
 			Array.from(document.getElementsByClassName('delete-todo')).forEach(function(element) {
 				element.removeEventListener('click', function() {});
