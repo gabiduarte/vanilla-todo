@@ -70,17 +70,6 @@ var Todo = {
 		}
 	},
 
-	// findTodo: function(todo) {
-	// 	var todos = Todo.getFromLocalStorage('todos'),
-	// 			foundTodo = false;
-	//
-	// 	todos.forEach(function(item, index) {
-	// 		if (item.description == todo.description && !foundTodo) {
-	// 			foundTodo = item;
-	// 		}
-	// 	});
-	// },
-
 	generateHTML: function() {
 		var todos = this.getFromLocalStorage('todos'),
 			HTML = '';
