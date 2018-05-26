@@ -10,6 +10,8 @@ describe('Vanilla Todo', function() {
 			category: 'Work',
 			isComplete: false
 		}],
+
+		fakeCategories = '["ABC", "DEF", "GHI"]',
 		arrayWithTwoTodos = '[' + JSON.stringify(fakeTodos[0]) + ',' + JSON.stringify(fakeTodos[1]) + ']',
 		arrayWithOneTodo = '[' + JSON.stringify(fakeTodos[1]) + ']',
 
@@ -33,18 +35,19 @@ describe('Vanilla Todo', function() {
 		});
 	});
 
-	describe('Load Todos', function() {
-		it('creates an empty array in localStorage when it has no todos', function() {
+	describe('Init from localStorage', function() {
+		it('creates empty todos and categories in localStorage when there are none', function() {
 				expect(fakeStorage.todos).toBeUndefined();
 				Todo.init();
-				expect(localStorage.getItem).toHaveBeenCalled();
+				// expect(localStorage.getItem).toHaveBeenCalled();
 				expect(fakeStorage.todos).toEqual('[]');
+				expect(fakeStorage.categories).toEqual('[]');
 		});
 
-		it('returns todo array when there is any todo in localStorage', function() {
-			localStorage.setItem('todos', '["A","B"]');
-			var init = Todo.init();
-			expect(init).toEqual(['A', 'B']);
+		it('does not create empty todos or categories in localStorage when there are any', function() {
+			fakeStorage = { todos: arrayWithOneTodo, categories: fakeCategories };
+			Todo.init();
+			expect(JSON.stringify(Todo.getFromLocalStorage('todos'))).not.toEqual('[]');
 		});
 	});
 
@@ -104,6 +107,12 @@ describe('Vanilla Todo', function() {
 			fakeStorage = { todos: arrayWithOneTodo };
 			expect(Todo.generateHTML()).toEqual(fakeHTMLForB);
 		});
+
+		// it('creates a new category', function(){
+		// 	fakeStorage = { categories: fakeCategories };
+		// 	Todo.create.category('JKL');
+		// 	expect(fakeStorage.categories[fakeStorage.categories.length - 1]).toEqual('JKL');
+		// });
 	});
 
 	describe('Complete Todo', function(){

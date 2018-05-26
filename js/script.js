@@ -1,6 +1,12 @@
 var Todo = {
 	init: function() {
-		return this.getFromLocalStorage('todos') || this.setToLocalStorage('todos', []);
+		// if (!this.getFromLocalStorage('todos')) {
+			this.setToLocalStorage('todos', []);
+		// }
+
+		// if (!this.getFromLocalStorage('categories')) {
+			this.setToLocalStorage('categories', []);
+		// }
 	},
 
 	getFromLocalStorage: function(item) {
@@ -19,6 +25,10 @@ var Todo = {
 				category: chosenCategory || 'Personal',
 				isComplete: complete || false
 			}
+		},
+
+		category: function(newCategory) {
+			var categories = Todo.getFromLocalStorage('categories');
 		}
 	},
 
